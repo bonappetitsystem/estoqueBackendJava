@@ -9,4 +9,8 @@ class BonappetitEstoqueApplicationTests {
 	@Test
 	void contextLoads() {
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> d2d75cf5250c2e3abca75d1739b6eee0bbed9684
 }

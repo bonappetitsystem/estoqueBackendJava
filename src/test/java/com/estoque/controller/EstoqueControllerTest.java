@@ -30,10 +30,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class EstoqueControllerTest {
-	
-	private Long idExistente;
+private Long idExistente;
 	private Long idNaoExistente;
-	
+
 	private Estoque eExistente;
 	private Estoque eNova;
 	
@@ -65,43 +64,51 @@ public class EstoqueControllerTest {
 	}
 	
 	@Test
-	void retornaEstoqueAoConsultarIdExistente() throws Exception {
-		ResultActions result = nockMvc.perform(get("/{idExistente}", idExistente).accept(MediaType.APPLICATION_JSON));
+	public void retornaEstoqueAoConsultarIdExistente() throws Exception {
+		ResultActions result = nockMvc.perform(get("/estoque/{id}", idExistente)
+				.accept(MediaType.APPLICATION_JSON));
 		result.andExpect(status().isOk());
 	}
 	
 	@Test
-	void deveRetornar404() throws Exception {
+	public void deveRetornar404() throws Exception {
 		ResultActions result = nockMvc.perform(get("/{idExistente}", idNaoExistente).accept(MediaType.APPLICATION_JSON));
 		result.andExpect(status().isNotFound());
 	}
 	
 	@Test
-	void retornar204SalvoComsucesso() throws Exception {
+	public void retornar204SalvoComsucesso() throws Exception {
 		String jsonBody = objMapper.writeValueAsString(eNova);
-		ResultActions result = nockMvc.perform(post("/").content(jsonBody).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON) );
+
+		ResultActions result = nockMvc.perform(post("/estoque")
+				.content(jsonBody)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON));
 		result.andExpect(status().isCreated());
 	}
 	
 	@Test
-	void retornaOkQuandoAltera() throws Exception {
-		String jsonBody = objMapper.writeValueAsString(eExistente);
-		ResultActions result = nockMvc.perform(put("/{idExistente}", idExistente).content(jsonBody).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+	public void retornaOkQuandoAltera() throws Exception {
+		String jsonBody = objMapper.writeValueAsString(eNova);
+
+		ResultActions result = nockMvc.perform(put("/estoque/{id}", idExistente)
+				.content(jsonBody)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON));
 		result.andExpect(status().isOk());
 	}
 	
 	@Test
-	void retorna404QuandoAlteraInexistente() throws Exception {
+	public void retorna404QuandoAlteraInexistente() throws Exception {
 		String jsonBody = objMapper.writeValueAsString(eNova);
 		ResultActions result = nockMvc.perform(put("/{idExistente}", idNaoExistente).content(jsonBody).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 		result.andExpect(status().isNotFound());
 	}
 	
 	@Test
-	void retornaListaConsultaTodos() throws Exception {
-		ResultActions result = nockMvc.perform(get("/"));
+	public void retornaListaConsultaTodos() throws Exception {
+		ResultActions result = nockMvc.perform(get("/estoque").accept(MediaType.APPLICATION_JSON));
 		result.andExpect(status().isOk());
-		Mockito.when(service.buscarTodos()).thenReturn(new ArrayList<>());
 	}
 	
 }
