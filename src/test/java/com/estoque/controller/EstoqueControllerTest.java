@@ -90,7 +90,6 @@ private Long idExistente;
 	@Test
 	public void retornaOkQuandoAltera() throws Exception {
 		String jsonBody = objMapper.writeValueAsString(eNova);
-
 		ResultActions result = nockMvc.perform(put("/estoque/{id}", idExistente)
 				.content(jsonBody)
 				.contentType(MediaType.APPLICATION_JSON)
