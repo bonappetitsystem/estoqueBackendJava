@@ -30,8 +30,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class EstoqueControllerTest {
-
-
 	
 	private Long idExistente;
 	private Long idNaoExistente;
@@ -67,40 +65,40 @@ public class EstoqueControllerTest {
 	}
 	
 	@Test
-	public void retornaEstoqueAoConsultarIdExistente() throws Exception {
+	void retornaEstoqueAoConsultarIdExistente() throws Exception {
 		ResultActions result = nockMvc.perform(get("/{idExistente}", idExistente).accept(MediaType.APPLICATION_JSON));
 		result.andExpect(status().isOk());
 	}
 	
 	@Test
-	public void deveRetornar404() throws Exception {
+	void deveRetornar404() throws Exception {
 		ResultActions result = nockMvc.perform(get("/{idExistente}", idNaoExistente).accept(MediaType.APPLICATION_JSON));
 		result.andExpect(status().isNotFound());
 	}
 	
 	@Test
-	public void retornar204SalvoComsucesso() throws Exception {
+	void retornar204SalvoComsucesso() throws Exception {
 		String jsonBody = objMapper.writeValueAsString(eNova);
 		ResultActions result = nockMvc.perform(post("/").content(jsonBody).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON) );
 		result.andExpect(status().isCreated());
 	}
 	
 	@Test
-	public void retornaOkQuandoAltera() throws Exception {
+	void retornaOkQuandoAltera() throws Exception {
 		String jsonBody = objMapper.writeValueAsString(eExistente);
 		ResultActions result = nockMvc.perform(put("/{idExistente}", idExistente).content(jsonBody).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 		result.andExpect(status().isOk());
 	}
 	
 	@Test
-	public void retorna404QuandoAlteraInexistente() throws Exception {
+	void retorna404QuandoAlteraInexistente() throws Exception {
 		String jsonBody = objMapper.writeValueAsString(eNova);
 		ResultActions result = nockMvc.perform(put("/{idExistente}", idNaoExistente).content(jsonBody).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 		result.andExpect(status().isNotFound());
 	}
 	
 	@Test
-	public void retornaListaConsultaTodos() throws Exception {
+	void retornaListaConsultaTodos() throws Exception {
 		ResultActions result = nockMvc.perform(get("/"));
 		result.andExpect(status().isOk());
 		Mockito.when(service.buscarTodos()).thenReturn(new ArrayList<>());

@@ -9,5 +9,4 @@ class BonappetitEstoqueApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
