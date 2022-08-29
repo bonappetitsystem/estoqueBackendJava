@@ -19,7 +19,7 @@ import com.estoque.entidades.Produto;
 import com.estoque.service.ProdutoService;
 
 @RestController
-@RequestMapping("/produtos")
+@RequestMapping("/produto")
 @CrossOrigin(origins = "*")
 public class ProdutoController {
 	@Autowired

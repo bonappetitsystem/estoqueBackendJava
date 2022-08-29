@@ -29,7 +29,7 @@ public class ProdutoService {
 	}
 	
 	public void deletar(Long id) {
-		buscarPorId(id);
+//		buscarPorId(id);
 		produtoRepository.deleteById(id);
 	}
 	

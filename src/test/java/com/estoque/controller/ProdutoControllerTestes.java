@@ -7,8 +7,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.Date;
-
 import javax.persistence.EntityNotFoundException;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -22,64 +20,64 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import com.estoque.entidades.Estoque;
-import com.estoque.service.EstoqueService;
+import com.estoque.entidades.Produto;
+import com.estoque.service.ProdutoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class EstoqueControllerTest {
+public class ProdutoControllerTestes {
 	private Long idExistente;
 	private Long idNaoExistente;
 
-	private Estoque eExistente;
-	private Estoque eNova;
+	private Produto pExistente;
+	private Produto pNovo;
 	
 	@Autowired
 	private ObjectMapper objMapper;
 	
 	@Autowired
-	private MockMvc nockMvc;
+	private MockMvc mockMvc;
 	
 	@MockBean
-	private EstoqueService service;
+	private ProdutoService service;
 	
 	@BeforeEach
 	void setup() {
 		idExistente = 1L;
 		idNaoExistente = 100L;
 		
-		eNova = new Estoque();
-		eExistente = new Estoque(4.0f, new Date(27-07-1994), "49joslw", "kg",3.80f);
-		eExistente.setId_estoque(1L);
+		pNovo = new Produto();
+		pExistente = new Produto();
+		pExistente.setId_produto(1L);;
 		
-		Mockito.when(service.buscarPorId(idExistente)).thenReturn(eExistente);
+		Mockito.when(service.buscarPorId(idExistente)).thenReturn(pExistente);
 		Mockito.doThrow(EntityNotFoundException.class).when(service).buscarPorId(idNaoExistente);
 		
-		Mockito.when(service.cadastrar(any())).thenReturn(eExistente);
+		Mockito.when(service.cadastrar(any())).thenReturn(pExistente);
 		
-		Mockito.when(service.alterar(eq(idExistente), any())).thenReturn(eExistente);
+		Mockito.when(service.alterar(eq(idExistente), any())).thenReturn(pExistente);
 		Mockito.when(service.alterar(eq(idNaoExistente), any())).thenThrow(EntityNotFoundException.class);
 	}
 	
 	@Test
 	public void retornaEstoqueAoConsultarIdExistente() throws Exception {
-		ResultActions result = nockMvc.perform(get("/estoque/{id}", idExistente)
+		ResultActions result = mockMvc.perform(get("/produto/{id}", idExistente)
 				.accept(MediaType.APPLICATION_JSON));
 		result.andExpect(status().isOk());
 	}
 	
 	@Test
 	public void deveRetornar404() throws Exception {
-		ResultActions result = nockMvc.perform(get("/{idExistente}", idNaoExistente).accept(MediaType.APPLICATION_JSON));
+		ResultActions result = mockMvc.perform(get("/{idExistente}", idNaoExistente).accept(MediaType.APPLICATION_JSON));
 		result.andExpect(status().isNotFound());
 	}
 	
 	@Test
 	public void retornar204SalvoComsucesso() throws Exception {
-		String jsonBody = objMapper.writeValueAsString(eNova);
+		String jsonBody = objMapper.writeValueAsString(pNovo);
 
-		ResultActions result = nockMvc.perform(post("/estoque")
+		ResultActions result = mockMvc.perform(post("/produto")
 				.content(jsonBody)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON));
@@ -88,8 +86,8 @@ public class EstoqueControllerTest {
 	
 	@Test
 	public void retornaOkQuandoAltera() throws Exception {
-		String jsonBody = objMapper.writeValueAsString(eNova);
-		ResultActions result = nockMvc.perform(put("/estoque/{id}", idExistente)
+		String jsonBody = objMapper.writeValueAsString(pNovo);
+		ResultActions result = mockMvc.perform(put("/produto/{id}", idExistente)
 				.content(jsonBody)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON));
@@ -98,14 +96,14 @@ public class EstoqueControllerTest {
 	
 	@Test
 	public void retorna404QuandoAlteraInexistente() throws Exception {
-		String jsonBody = objMapper.writeValueAsString(eNova);
-		ResultActions result = nockMvc.perform(put("/{idExistente}", idNaoExistente).content(jsonBody).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+		String jsonBody = objMapper.writeValueAsString(pNovo);
+		ResultActions result = mockMvc.perform(put("/{idExistente}", idNaoExistente).content(jsonBody).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 		result.andExpect(status().isNotFound());
 	}
 	
 	@Test
 	public void retornaListaConsultaTodos() throws Exception {
-		ResultActions result = nockMvc.perform(get("/estoque").accept(MediaType.APPLICATION_JSON));
+		ResultActions result = mockMvc.perform(get("/produto").accept(MediaType.APPLICATION_JSON));
 		result.andExpect(status().isOk());
 	}
 }
