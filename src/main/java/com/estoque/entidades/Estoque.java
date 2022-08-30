@@ -24,6 +24,9 @@ public class Estoque {
 	private Float quantidade;
 	
 	@Column(nullable = false)
+	private Long quantidade_unitaria;
+	
+	@Column(nullable = false)
 	private Date validade;
 	
 	@NotBlank(message = "Nome é obrigatório")
@@ -53,6 +56,13 @@ public class Estoque {
 		this.preco = preco;
 	}
 
+	
+	public Long getQuantidade_unitaria() {
+		return quantidade_unitaria;
+	}
+	public void setQuantidade_unitaria(Long quantidade_unitaria) {
+		this.quantidade_unitaria = quantidade_unitaria;
+	}
 	public Long getId_estoque() {
 		return id_estoque;
 	}
