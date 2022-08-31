@@ -1,5 +1,7 @@
 package com.estoque.entidades;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -27,6 +29,7 @@ public class Estoque {
 	private Long quantidade_unitaria;
 	
 	@Column(nullable = false)
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date validade;
 	
 	@NotBlank(message = "Nome é obrigatório")

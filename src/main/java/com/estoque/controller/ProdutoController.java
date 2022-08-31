@@ -2,6 +2,7 @@ package com.estoque.controller;
 
 import java.util.List;
 
+import com.estoque.repository.filter.ProdutoFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +27,8 @@ public class ProdutoController {
 	ProdutoService produtoService;
 	
 	@GetMapping
-	public List<Produto> buscarTodos(){
-		return produtoService.buscarTodos();
+	public List<Produto> pesquisar(ProdutoFilter produtoFilter) {
+		return produtoService.pesquisar(produtoFilter);
 	}
 	
 	@GetMapping("/{id}")

@@ -31,6 +31,15 @@ public class EstoqueServiceTestes {
 		inventory = new Estoque();
 		inventoryInvalid = new Estoque();
 						
+			Mockito.doThrow(IllegalArgumentException.class).when(inventoryRepository).save(inventoryInvalid);
+		Mockito.when(inventoryRepository.save(inventory)).thenReturn(inventory);
+		
+
+		Mockito.doNothing().when(inventoryRepository).deleteById(idExistente);
+		Mockito.doThrow(EmptyResultDataAccessException.class).when(inventoryRepository).deleteById(idNaoExistente);
+		
+		Mockito.when(inventoryRepository.findById(idExistente)).thenReturn(Optional.of(inventory));
+		Mockito.doThrow(EmptyResultDataAccessException.class).when(inventoryRepository).findById(idNaoExistente);
 	}
 	
 	@InjectMocks
@@ -86,6 +95,21 @@ public class EstoqueServiceTestes {
 		Mockito.doThrow(EmptyResultDataAccessException.class).when(inventoryRepository).findById(idNaoExistente);
 		Assertions.assertThrows(EmptyResultDataAccessException.class, () -> {
 			inventoryService.buscarPorId(idNaoExistente);
+		});
+		Mockito.verify(inventoryRepository,Mockito.times(1)).findById(idNaoExistente);
+	}
+
+	@Test
+	public void returnInventoryWhenSuccessUpdate() {
+		Estoque inventoryTest = inventoryService.alterar(idExistente, inventory);
+		Assertions.assertNotNull(inventoryTest);
+		Mockito.verify(inventoryRepository).save(inventory);
+	}
+
+	@Test
+	public void throwEntityNotFoundWhenIdDoesNotExistUpdate() {
+		Assertions.assertThrows(EmptyResultDataAccessException.class, () -> {
+			inventoryService.alterar(idNaoExistente, inventory);
 		});
 		Mockito.verify(inventoryRepository,Mockito.times(1)).findById(idNaoExistente);
 	}

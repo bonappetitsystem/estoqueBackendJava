@@ -108,4 +108,7 @@ public class EstoqueControllerTest {
 		ResultActions result = nockMvc.perform(get("/estoque").accept(MediaType.APPLICATION_JSON));
 		result.andExpect(status().isOk());
 	}
+
+
+	
 }

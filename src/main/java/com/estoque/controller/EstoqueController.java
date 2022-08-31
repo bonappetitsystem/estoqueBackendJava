@@ -2,6 +2,7 @@ package com.estoque.controller;
 
 import java.util.List;
 
+import com.estoque.repository.filter.EstoqueFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ import com.estoque.entidades.Estoque;
 import com.estoque.service.EstoqueService;
 
 @RestController
-@RequestMapping("/estoque")
+@RequestMapping("/estoques")
 @CrossOrigin(origins = "*")
 public class EstoqueController {
 	@Autowired
@@ -32,8 +33,8 @@ public class EstoqueController {
 	}
 	
 	@GetMapping
-	public List<Estoque> buscarTodos(){
-		return estoqueService.buscarTodos();
+	public List<Estoque> pesquisar(EstoqueFilter estoqueFilter) {
+		return estoqueService.pesquisar(estoqueFilter);
 	}
 	
 	@GetMapping("/{id}")

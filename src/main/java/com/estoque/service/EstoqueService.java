@@ -2,6 +2,7 @@ package com.estoque.service;
 
 import java.util.List;
 
+import com.estoque.repository.filter.EstoqueFilter;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -20,8 +21,8 @@ public class EstoqueService {
 		return estoqueRepository.save(estoque); 
 	}
 	
-	public List<Estoque> buscarTodos() {
-		return 	estoqueRepository.findAll();
+	public List<Estoque> pesquisar(EstoqueFilter estoqueFilter) {
+		return 	estoqueRepository.filtrar(estoqueFilter);
 	}
 	
 	public Estoque buscarPorId(Long id) {
