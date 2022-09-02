@@ -19,7 +19,6 @@ public class ProdutoRepositoryImpl implements ProdutoRepositoryQuery {
     @PersistenceContext
     private EntityManager manager;
 
-
     @Override
     public List<Produto> filtrar(ProdutoFilter produtoFilter) {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
