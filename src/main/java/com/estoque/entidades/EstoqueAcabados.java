@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+@Deprecated
 @Entity
 @Getter
 @Setter
