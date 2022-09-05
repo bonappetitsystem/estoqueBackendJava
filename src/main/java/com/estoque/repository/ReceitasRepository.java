@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface ReceitasRepository extends JpaRepository<Receitas, Long>, ReceitasRepositoryQuery {
 
 
-
 }
 
 

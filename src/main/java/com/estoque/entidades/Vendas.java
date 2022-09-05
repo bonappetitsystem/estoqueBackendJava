@@ -1,17 +1,23 @@
 package com.estoque.entidades;
 
 
+import java.time.Instant;
+
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-@Deprecated
 @Entity
 @Getter
 @Setter
@@ -23,15 +29,17 @@ public class Vendas {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nome;
+    @ManyToOne
+    @JoinColumn(name = "id_estoque_acabado")
+    private EstoqueAcabados estoqueAcabado;
 
-    private String quantidade;
+    private String codigoVenda = "VENDA-" + Instant.now().getEpochSecond();
+
+    private int quantidadeUnitaria;
 
     private String valor;
 
-    private String data;
-
-    private String hora;
+    private Instant dataVenda;
 
     private String formaDePagamento;
 
@@ -47,27 +55,18 @@ public class Vendas {
 
     private String vendedor;
 
-    private String status;
-
-    private String tipo;
-
-    private String idVenda;
-
-    private String idCliente;
-
-    private String idVendedor;
-
-    private String idProduto;
-
-    private String idEstoque;
-
-    private String idEstoqueAcabados;
-
-    private String idReceitas;
-
-    private String idProdutosAcabados;
-
-    private String idProdutos;
-
-    private String idFornecedores;
+    @Enumerated(EnumType.STRING)
+    private StatusVenda status;
+    
+    private Instant dataAtualizacao;
+    
+    @PrePersist
+    public void prepersist() {
+    	dataVenda = Instant.now();
+    }
+    
+    @PreUpdate
+    public void preupdate() {
+    	dataAtualizacao = Instant.now();
+    }
 }

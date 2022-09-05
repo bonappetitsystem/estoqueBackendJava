@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-
-@Deprecated
 @Entity
 @Getter
 @Setter
@@ -19,9 +17,9 @@ public class EstoqueAcabados {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "id_produtos_acabados")
-    private ProdutosAcabados produtosAcabados;
-    private String quantidade;
+    @JoinColumn(name = "id_receitas")
+    private Receitas receitas;
+    private int quantidade;
     private String preco;
     private String descricao;
 
