@@ -30,7 +30,7 @@ public class EstoqueService {
 	}
 	
 	public void deletar(Long id) {
-		buscarPorId(id);
+//		buscarPorId(id);
 		estoqueRepository.deleteById(id);
 	}
 	

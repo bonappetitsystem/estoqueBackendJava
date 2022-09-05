@@ -5,25 +5,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
-
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 @Deprecated
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class EstoqueAcabados {
-
+public class ProdutosAcabados {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
-    @JoinColumn(name = "id_produtos_acabados")
-    private ProdutosAcabados produtosAcabados;
-    private String quantidade;
-    private String preco;
-    private String descricao;
-
-
+    private String nome;
 }
