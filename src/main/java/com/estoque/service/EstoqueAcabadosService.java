@@ -1,7 +1,8 @@
 package com.estoque.service;
 
-import com.estoque.entidades.EstoqueAcabados;
-import com.estoque.repository.EstoqueAcabadosRepository;
+import com.estoque.entidades.EstoqueAcabado;
+import com.estoque.repository.EstoqueAcabadoRepository;
+import com.estoque.repository.filter.EstoqueAcabadoFilter;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -13,30 +14,31 @@ import java.util.List;
 public class EstoqueAcabadosService {
 
     @Autowired
-    private EstoqueAcabadosRepository estoqueAcabadosRepository;
+    private EstoqueAcabadoRepository estoqueAcabadoRepository;
 
-    public List<EstoqueAcabados> buscarTodos() {
-        return estoqueAcabadosRepository.findAll();
+    public List<EstoqueAcabado>pesquisar(EstoqueAcabadoFilter estoqueAcabadoFilter){
+        return estoqueAcabadoRepository.filtrar(estoqueAcabadoFilter);
     }
 
-    public EstoqueAcabados buscarPorId(Long id) {
-        return estoqueAcabadosRepository.findById(id).orElseThrow(() -> new EmptyResultDataAccessException(1));
+    public EstoqueAcabado buscarPorId(Long id) {
+        return estoqueAcabadoRepository.findById(id).orElseThrow(() -> new EmptyResultDataAccessException(1));
     }
 
-    public EstoqueAcabados cadastrar(EstoqueAcabados estoqueAcabados) {
-        return estoqueAcabadosRepository.save(estoqueAcabados);
+
+    public EstoqueAcabado cadastrar(EstoqueAcabado estoqueAcabado) {
+        return estoqueAcabadoRepository.save(estoqueAcabado);
     }
+
 
 
     public void deletar(Long id) {
-        estoqueAcabadosRepository.deleteById(id);
+        estoqueAcabadoRepository.deleteById(id);
     }
 
-    public EstoqueAcabados alterar(Long id, EstoqueAcabados estoqueAcabados) {
-        EstoqueAcabados estoqueAcabadosSalvo = buscarPorId(id);
-        BeanUtils.copyProperties(estoqueAcabados, estoqueAcabadosSalvo, "id");
-        return estoqueAcabadosRepository.save(estoqueAcabadosSalvo);
+    public EstoqueAcabado alterar(Long id, EstoqueAcabado estoqueAcabado) {
+        EstoqueAcabado estoqueAcabadoSalvo = buscarPorId(id);
+        BeanUtils.copyProperties(estoqueAcabado, estoqueAcabadoSalvo, "id");
+        return estoqueAcabadoRepository.save(estoqueAcabadoSalvo);
     }
-
 
 }

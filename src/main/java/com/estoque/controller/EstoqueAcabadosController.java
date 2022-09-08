@@ -1,6 +1,7 @@
 package com.estoque.controller;
 
-import com.estoque.entidades.EstoqueAcabados;
+import com.estoque.entidades.EstoqueAcabado;
+import com.estoque.repository.filter.EstoqueAcabadoFilter;
 import com.estoque.service.EstoqueAcabadosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,29 +18,29 @@ public class EstoqueAcabadosController {
     private EstoqueAcabadosService estoqueAcabadosService;
 
     @GetMapping
-    public List<EstoqueAcabados> buscarTodos() {
-        return estoqueAcabadosService.buscarTodos();
+    public List<EstoqueAcabado> pesquisar(EstoqueAcabadoFilter estoqueAcabadoFilter) {
+        return estoqueAcabadosService.pesquisar(estoqueAcabadoFilter);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EstoqueAcabados> buscarPorId(@PathVariable Long id) {
-        EstoqueAcabados estoqueAcabados = estoqueAcabadosService.buscarPorId(id);
-        return ResponseEntity.ok(estoqueAcabados);
+    public ResponseEntity<EstoqueAcabado> buscarPorId(@PathVariable Long id) {
+        EstoqueAcabado estoqueAcabado = estoqueAcabadosService.buscarPorId(id);
+        return ResponseEntity.ok(estoqueAcabado);
     }
 
     @PostMapping
-    public ResponseEntity<EstoqueAcabados> cadastrar(@RequestBody EstoqueAcabados estoqueAcabados) {
-        EstoqueAcabados estoqueAcabadosSalvo = estoqueAcabadosService.cadastrar(estoqueAcabados);
-        return ResponseEntity.ok(estoqueAcabadosSalvo);
+    public ResponseEntity<EstoqueAcabado> cadastrar(@RequestBody EstoqueAcabado estoqueAcabado) {
+        EstoqueAcabado estoqueAcabadoSalvo = estoqueAcabadosService.cadastrar(estoqueAcabado);
+        return ResponseEntity.ok(estoqueAcabadoSalvo);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EstoqueAcabados> alterar(@PathVariable Long id, @RequestBody EstoqueAcabados estoqueAcabados) {
-        return ResponseEntity.ok(estoqueAcabadosService.alterar(id, estoqueAcabados));
+    public ResponseEntity<EstoqueAcabado> alterar(@PathVariable Long id, @RequestBody EstoqueAcabado estoqueAcabado) {
+        return ResponseEntity.ok(estoqueAcabadosService.alterar(id, estoqueAcabado));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<EstoqueAcabados> deletar(@PathVariable Long id) {
+    public ResponseEntity<EstoqueAcabado> deletar(@PathVariable Long id) {
         estoqueAcabadosService.deletar(id);
         return ResponseEntity.noContent().build();
     }

@@ -11,6 +11,7 @@ import java.util.Date;
 
 import javax.persistence.EntityNotFoundException;
 
+import com.estoque.entidades.UnidadeMedida;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -32,7 +33,6 @@ public class EstoqueControllerTest {
 	private Long idExistente;
 	private Long idNaoExistente;
 
-	private Estoque eExistente;
 	private Estoque eNova;
 	
 	@Autowired
@@ -43,6 +43,7 @@ public class EstoqueControllerTest {
 	
 	@MockBean
 	private EstoqueService service;
+
 	
 	@BeforeEach
 	void setup() {
@@ -50,8 +51,8 @@ public class EstoqueControllerTest {
 		idNaoExistente = 100L;
 		
 		eNova = new Estoque();
-		eExistente = new Estoque(4.0f, new Date(27-07-1994), "49joslw", "kg",3.80f);
-		eExistente.setId_estoque(1L);
+		Estoque eExistente = new Estoque(100.0f, 10, new Date(23 - 12 - 2040), "DKFRJ", UnidadeMedida.KG, 3.98f);
+		eExistente.setId(idExistente);
 		
 		Mockito.when(service.buscarPorId(idExistente)).thenReturn(eExistente);
 		Mockito.doThrow(EntityNotFoundException.class).when(service).buscarPorId(idNaoExistente);
@@ -64,7 +65,7 @@ public class EstoqueControllerTest {
 	
 	@Test
 	public void retornaEstoqueAoConsultarIdExistente() throws Exception {
-		ResultActions result = nockMvc.perform(get("/estoque/{id}", idExistente)
+		ResultActions result = nockMvc.perform(get("/estoques/{id}", idExistente)
 				.accept(MediaType.APPLICATION_JSON));
 		result.andExpect(status().isOk());
 	}
@@ -79,7 +80,7 @@ public class EstoqueControllerTest {
 	public void retornar204SalvoComsucesso() throws Exception {
 		String jsonBody = objMapper.writeValueAsString(eNova);
 
-		ResultActions result = nockMvc.perform(post("/estoque")
+		ResultActions result = nockMvc.perform(post("/estoques")
 				.content(jsonBody)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON));
@@ -89,7 +90,7 @@ public class EstoqueControllerTest {
 	@Test
 	public void retornaOkQuandoAltera() throws Exception {
 		String jsonBody = objMapper.writeValueAsString(eNova);
-		ResultActions result = nockMvc.perform(put("/estoque/{id}", idExistente)
+		ResultActions result = nockMvc.perform(put("/estoques/{id}", idExistente)
 				.content(jsonBody)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON));
@@ -105,7 +106,7 @@ public class EstoqueControllerTest {
 	
 	@Test
 	public void retornaListaConsultaTodos() throws Exception {
-		ResultActions result = nockMvc.perform(get("/estoque").accept(MediaType.APPLICATION_JSON));
+		ResultActions result = nockMvc.perform(get("/estoques").accept(MediaType.APPLICATION_JSON));
 		result.andExpect(status().isOk());
 	}
 

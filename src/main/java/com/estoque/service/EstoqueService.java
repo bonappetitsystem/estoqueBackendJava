@@ -36,7 +36,7 @@ public class EstoqueService {
 	
 	public Estoque alterar(Long id, Estoque estoque) {
 		Estoque estoqueSalvo = buscarPorId(id);
-		BeanUtils.copyProperties(estoque, estoqueSalvo, "id_estoque");
+		BeanUtils.copyProperties(estoque, estoqueSalvo, "id");
 		return estoqueRepository.save(estoqueSalvo);
 	}
 }

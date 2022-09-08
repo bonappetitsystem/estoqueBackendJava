@@ -30,13 +30,13 @@ public class ProdutoService {
 	}
 	
 	public void deletar(Long id) {
-//		buscarPorId(id);
+		buscarPorId(id);
 		produtoRepository.deleteById(id);
 	}
 	
 	public Produto alterar(Long id, Produto produto) {
 		Produto produtoSalvo = buscarPorId(id);
-		BeanUtils.copyProperties(produto, produtoSalvo, "id_produto");
+		BeanUtils.copyProperties(produto, produtoSalvo, "id");
 		return produtoRepository.save(produtoSalvo);
 	}
 

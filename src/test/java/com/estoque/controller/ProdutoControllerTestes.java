@@ -49,7 +49,7 @@ public class ProdutoControllerTestes {
 		
 		pNovo = new Produto();
 		pExistente = new Produto();
-		pExistente.setId_produto(1L);;
+		pExistente.setId(1L);;
 		
 		Mockito.when(service.buscarPorId(idExistente)).thenReturn(pExistente);
 		Mockito.doThrow(EntityNotFoundException.class).when(service).buscarPorId(idNaoExistente);
@@ -62,7 +62,7 @@ public class ProdutoControllerTestes {
 	
 	@Test
 	public void retornaEstoqueAoConsultarIdExistente() throws Exception {
-		ResultActions result = mockMvc.perform(get("/produto/{id}", idExistente)
+		ResultActions result = mockMvc.perform(get("/produtos/{id}", idExistente)
 				.accept(MediaType.APPLICATION_JSON));
 		result.andExpect(status().isOk());
 	}
@@ -77,7 +77,7 @@ public class ProdutoControllerTestes {
 	public void retornar204SalvoComsucesso() throws Exception {
 		String jsonBody = objMapper.writeValueAsString(pNovo);
 
-		ResultActions result = mockMvc.perform(post("/produto")
+		ResultActions result = mockMvc.perform(post("/produtos")
 				.content(jsonBody)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON));
@@ -87,7 +87,7 @@ public class ProdutoControllerTestes {
 	@Test
 	public void retornaOkQuandoAltera() throws Exception {
 		String jsonBody = objMapper.writeValueAsString(pNovo);
-		ResultActions result = mockMvc.perform(put("/produto/{id}", idExistente)
+		ResultActions result = mockMvc.perform(put("/produtos/{id}", idExistente)
 				.content(jsonBody)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON));
@@ -103,7 +103,7 @@ public class ProdutoControllerTestes {
 	
 	@Test
 	public void retornaListaConsultaTodos() throws Exception {
-		ResultActions result = mockMvc.perform(get("/produto").accept(MediaType.APPLICATION_JSON));
+		ResultActions result = mockMvc.perform(get("/produtos").accept(MediaType.APPLICATION_JSON));
 		result.andExpect(status().isOk());
 	}
 }

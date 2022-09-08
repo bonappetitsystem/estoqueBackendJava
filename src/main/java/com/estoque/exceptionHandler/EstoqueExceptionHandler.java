@@ -3,6 +3,7 @@ package com.estoque.exceptionHandler;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.estoque.exceptionHandler.custom.EstoqueInsuficiente;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -52,6 +53,14 @@ public class EstoqueExceptionHandler extends ResponseEntityExceptionHandler{
     @ExceptionHandler({DataIntegrityViolationException.class})
     public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException ex, WebRequest request){
         String mensagemUsuario = messageSource.getMessage("opecacao.nao-permitida", null, LocaleContextHolder.getLocale());
+        String mensagemDesenvolvedor = ExceptionUtils.getRootCauseMessage(ex);
+        List<Erro> erros = List.of(new Erro(mensagemUsuario, mensagemDesenvolvedor));
+        return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler({EstoqueInsuficiente.class})
+    private ResponseEntity<Object> handleEstoqueInsuficiente(EstoqueInsuficiente ex, WebRequest request){
+        String mensagemUsuario = messageSource.getMessage("estoque.insuficiente", null, LocaleContextHolder.getLocale());
         String mensagemDesenvolvedor = ExceptionUtils.getRootCauseMessage(ex);
         List<Erro> erros = List.of(new Erro(mensagemUsuario, mensagemDesenvolvedor));
         return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);

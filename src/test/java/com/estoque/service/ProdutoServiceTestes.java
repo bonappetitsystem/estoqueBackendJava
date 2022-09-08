@@ -65,11 +65,12 @@ public class ProdutoServiceTestes {
 	
 	@Test
 	public void throwEmptyResultDataAcessWhenIdDoesNotExist() {
-		Mockito.doThrow(EmptyResultDataAccessException.class).when(productRepository).findById(idInexistent);
+		Mockito.doThrow(EmptyResultDataAccessException.class).when(productRepository).deleteById(idInexistent);
 		Assertions.assertThrows(EmptyResultDataAccessException.class, () -> {
 			productService.deletar(idInexistent);
 		});
 		Mockito.verify(productRepository,Mockito.times(1)).deleteById(idInexistent);
+
 	}
 	
 	@Test
